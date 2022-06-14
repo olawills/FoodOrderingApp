@@ -1,17 +1,18 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:palmo/widgets/main_app_bar.dart';
-
 import 'package:palmo/widgets/map_bottom_pill.dart';
 import 'package:palmo/widgets/map_user.dart';
 
-const LatLng SOURCE_LOCATION = LatLng(42.7477863, -71.1699932);
-const LatLng DEST_LOCATION = LatLng(42.744421, -71.1698939);
-const double CAMERA_ZOOM = 8;
-const double CAMERA_TILT = 40;
-const double CAMERA_BEARING = 20;
+const LatLng SOURCE_LOCATION = LatLng(06.449324, 003.342602);
+const LatLng DEST_LOCATION = LatLng(06.448671, 003.342560);
+// const LatLng SOURCE_LOCATION = LatLng(42.7477863, -71.1699932);
+// const LatLng DEST_LOCATION = LatLng(42.744421, -71.1698939);
+const double CAMERA_ZOOM = 16;
+const double CAMERA_TILT = 80;
+const double CAMERA_BEARING = 30;
 const double PIN_VISIBLE_POSITION = 20;
 const double PIN_INVISIBLE_POSITION = -220;
 
@@ -31,10 +32,15 @@ class _MapPageState extends State<MapPage> {
 
   late LatLng currentLocation;
   late LatLng destinationLocation;
+  bool mapUserSelected = false;
+  Set<Polyline> _polylines = Set<Polyline>();
+  List<LatLng> polylineCoordinates = [];
+  late PolylinePoints polylinePoints;
 
   @override
   void initState() {
     super.initState();
+    polylinePoints = PolylinePoints();
 
     //  set up initial locations
     setInitialLocation();
@@ -79,25 +85,32 @@ class _MapPageState extends State<MapPage> {
               myLocationEnabled: true,
               compassEnabled: false,
               tiltGesturesEnabled: false,
+              polylines: _polylines,
               markers: _markers,
               mapType: MapType.normal,
               initialCameraPosition: initialCameraPosition,
               onTap: (LatLng loc) {
                 // tapping on the map will dismiss the bottom pill
-                pinPillPosition = PIN_INVISIBLE_POSITION;
+                setState(() {
+                  pinPillPosition = PIN_INVISIBLE_POSITION;
+                  mapUserSelected = false;
+                });
               },
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
 
                 showPinsOnMap();
+                setPolylines();
               },
             ),
           ),
-          const Positioned(
+          Positioned(
             top: 100,
             left: 0,
             right: 0,
-            child: MapUser(),
+            child: MapUser(
+              isSelected: mapUserSelected,
+            ),
           ),
           AnimatedPositioned(
             duration: const Duration(milliseconds: 500),
@@ -123,13 +136,21 @@ class _MapPageState extends State<MapPage> {
   void showPinsOnMap() {
     setState(
       () {
-        _markers.add(Marker(
-          markerId: const MarkerId('sourcePin'),
-          position: currentLocation,
-          icon: sourceIcon,
-        ));
+        _markers.add(
+          Marker(
+            markerId: const MarkerId('sourcePin'),
+            position: currentLocation,
+            icon: sourceIcon,
+            onTap: () {
+              setState(() {
+                mapUserSelected = true;
+              });
+            },
+          ),
+        );
 
-        _markers.add(Marker(
+        _markers.add(
+          Marker(
             markerId: const MarkerId('destinationPin'),
             position: destinationLocation,
             icon: destinationIcon,
@@ -137,8 +158,34 @@ class _MapPageState extends State<MapPage> {
               setState(() {
                 pinPillPosition = PIN_VISIBLE_POSITION;
               });
-            }));
+            },
+          ),
+        );
       },
     );
+  }
+
+  void setPolylines() async {
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      "AIzaSyDS3vFoRGXed6oK3lt1gRtCCpvEIfRS3kI",
+      PointLatLng(currentLocation.latitude, currentLocation.longitude),
+      PointLatLng(destinationLocation.latitude, destinationLocation.longitude),
+    );
+    if (result.status == 'OK') {
+      result.points.forEach(
+        (PointLatLng point) {
+          polylineCoordinates.add(
+            LatLng(point.latitude, point.longitude),
+          );
+        },
+      );
+      setState(() {
+        _polylines.add(Polyline(
+            width: 10,
+            polylineId: const PolylineId('polyline'),
+            color: const Color(0xff08a5cb),
+            points: polylineCoordinates));
+      });
+    }
   }
 }

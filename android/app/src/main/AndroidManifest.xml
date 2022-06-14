@@ -8,7 +8,7 @@
         android:label="Able Ventures"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="com.google.android.geo.AIzaSyDS3vFoRGXed6oK3lt1gRtCCpvEIfRS3kI"
+        <meta-data android:name="com.google.android.geo.API_KEY"
               android:value="AIzaSyDS3vFoRGXed6oK3lt1gRtCCpvEIfRS3kI"/>
         <activity
             android:name=".MainActivity"

@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:palmo/helpers/app_colors.dart';
 
 class MapUser extends StatelessWidget {
+  final bool isSelected;
+
   const MapUser({
     Key? key,
+    required this.isSelected,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isSelected ? AppColors.mainColor : Colors.white,
         borderRadius: BorderRadius.circular(100),
         boxShadow: [
           BoxShadow(
@@ -34,7 +39,7 @@ class MapUser extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
               border: Border.all(
-                color: AppColors.mainColor,
+                color: isSelected ? AppColors.mainColor : AppColors.mainColor,
               ),
             ),
           ),
@@ -42,28 +47,29 @@ class MapUser extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   'Olawills',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: Colors.grey,
+                    color: isSelected ? AppColors.mainColor : Colors.grey,
                   ),
                 ),
                 Text(
                   'My Location',
                   style: TextStyle(
-                    color: AppColors.mainColor,
+                    color:
+                        isSelected ? AppColors.mainColor : AppColors.mainColor,
                   ),
                 ),
               ],
             ),
           ),
-          const Icon(
+          Icon(
             Icons.location_pin,
-            color: AppColors.mainColor,
-            size: 35,
+            color: isSelected ? Colors.white : AppColors.mainColor,
+            size: 40,
           ),
         ],
       ),
