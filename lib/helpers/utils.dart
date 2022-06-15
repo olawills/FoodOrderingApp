@@ -1,4 +1,5 @@
 import 'package:palmo/helpers/app_colors.dart';
+import 'package:palmo/helpers/unit_items.dart';
 import 'package:palmo/models/category.dart';
 import 'package:palmo/helpers/iconHelper.dart';
 import 'package:palmo/models/category_part.dart';
@@ -146,18 +147,18 @@ class Utils {
     ];
   }
 
-  // static String weightUnitToString(WeightUnits unit) {
-  //   switch (unit) {
-  //     case WeightUnits.Kg:
-  //       return 'kg.';
-  //     case WeightUnits.Lb:
-  //       return 'lb.';
-  //     case WeightUnits.Oz:
-  //       return 'oz.';
-  //     default:
-  //       return 'lb.';
-  //   }
-  // }
+  static String weightUnitToString(WeightUnits unit) {
+    switch (unit) {
+      case WeightUnits.Kg:
+        return 'kg.';
+      case WeightUnits.Lb:
+        return 'lb.';
+      case WeightUnits.Oz:
+        return 'oz.';
+      default:
+        return 'lb.';
+    }
+  }
 
   static String deviceSuffix(BuildContext context) {
     String deviceSuffix = '';
