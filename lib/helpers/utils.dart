@@ -4,6 +4,7 @@ import 'package:palmo/helpers/iconHelper.dart';
 import 'package:palmo/models/category_part.dart';
 import 'package:palmo/models/onBoarding_content.dart';
 import 'package:palmo/models/sub_category.dart';
+import 'package:flutter/material.dart';
 
 class Utils {
   static List<OnboardingContent> getOnboarding() {
@@ -143,5 +144,36 @@ class Utils {
         subCategories: [],
       ),
     ];
+  }
+
+  // static String weightUnitToString(WeightUnits unit) {
+  //   switch (unit) {
+  //     case WeightUnits.Kg:
+  //       return 'kg.';
+  //     case WeightUnits.Lb:
+  //       return 'lb.';
+  //     case WeightUnits.Oz:
+  //       return 'oz.';
+  //     default:
+  //       return 'lb.';
+  //   }
+  // }
+
+  static String deviceSuffix(BuildContext context) {
+    String deviceSuffix = '';
+    TargetPlatform platform = Theme.of(context).platform;
+    switch (platform) {
+      case TargetPlatform.android:
+        deviceSuffix = '_android';
+        break;
+      case TargetPlatform.iOS:
+        deviceSuffix = '_ios';
+        break;
+      default:
+        deviceSuffix = '';
+        break;
+    }
+
+    return deviceSuffix;
   }
 }

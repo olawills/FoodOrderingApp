@@ -179,13 +179,18 @@ class _MapPageState extends State<MapPage> {
           );
         },
       );
-      setState(() {
-        _polylines.add(Polyline(
-            width: 10,
-            polylineId: const PolylineId('polyline'),
-            color: const Color(0xff08a5cb),
-            points: polylineCoordinates));
-      });
+      setState(
+        () {
+          _polylines.add(
+            Polyline(
+              width: 10,
+              polylineId: const PolylineId('polyline'),
+              color: const Color(0xff08a5cb),
+              points: polylineCoordinates,
+            ),
+          );
+        },
+      );
     }
   }
 }

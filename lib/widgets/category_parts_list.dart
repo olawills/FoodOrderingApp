@@ -19,7 +19,8 @@ class _CategoryPartsListState extends State<CategoryPartsList> {
     return Column(
       children: [
         const Padding(
-          padding: EdgeInsets.all(5),
+          // padding: EdgeInsets.all(5),
+          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Text(
             'Select the part you want',
             style: TextStyle(fontSize: 14),
@@ -66,6 +67,7 @@ class _CategoryPartsListState extends State<CategoryPartsList> {
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
                             offset: Offset.zero,
+                            blurRadius: 10,
                           ),
                         ],
                       ),
@@ -77,7 +79,6 @@ class _CategoryPartsListState extends State<CategoryPartsList> {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           color: widget.subCategory.colour,
-                          fontSize: 16,
                         ),
                       ),
                     ),
