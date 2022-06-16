@@ -19,8 +19,8 @@ class _CategoryPartsListState extends State<CategoryPartsList> {
     return Column(
       children: [
         const Padding(
-          // padding: EdgeInsets.all(5),
-          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+          padding: EdgeInsets.all(5),
+          // padding: EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Text(
             'Select the part you want',
             style: TextStyle(fontSize: 14),
